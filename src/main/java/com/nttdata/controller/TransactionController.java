@@ -39,41 +39,16 @@ public class TransactionController {
 				});
 				
 	}
-		
-//	@GetMapping("/{accountNumber}")
-//	public Mono<Object> findAllByAccountNumber(@PathVariable("accountNumber") String accountNumber){ 
-//		
-//		return service.findAll().filter(list -> list.getAccount().getAccountNumber().equals(accountNumber))
-//				.collectList()
-//				.flatMap(list -> {
-//					return list.size() > 0 ? 
-//							Mono.just(ResponseEntity
-//									.ok()
-//									.contentType(MediaType.APPLICATION_JSON)
-//									.body(list)) :
-//							Mono.just(ResponseEntity
-//									.noContent()
-//									.build());
-//				});
-//				
-//	}
 	
-	@GetMapping("/{cardNumber}")
-	public Mono<Object> findAllByCardNumber(@PathVariable("cardNumber") String cardNumber){ 
+	@PostMapping
+	public Mono<ResponseEntity<Transaction>> create(@RequestBody Transaction transaction, final ServerHttpRequest request) {
 		
-		return service.findAll().filter(list -> list.getPurchase().getCardNumber().equals(cardNumber))
-				.collectList()
-				.flatMap(list -> {
-					return list.size() > 0 ? 
-							Mono.just(ResponseEntity
-									.ok()
-									.contentType(MediaType.APPLICATION_JSON)
-									.body(list)) :
-							Mono.just(ResponseEntity
-									.noContent()
-									.build());
-				});
-				
+		return service.create(transaction)
+				.map(c -> ResponseEntity
+						.created(URI.create(request.getURI().toString().concat("/").concat(c.getId())))
+						.contentType(MediaType.APPLICATION_JSON)
+						.body(c));
+		
 	}
-	
+		
 }
