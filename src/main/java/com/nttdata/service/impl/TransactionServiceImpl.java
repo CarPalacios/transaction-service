@@ -1,22 +1,23 @@
 package com.nttdata.service.impl;
 
+import com.nttdata.model.Transaction;
+import com.nttdata.repository.Repository;
+import com.nttdata.repository.TransactionRepository;
+import com.nttdata.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nttdata.model.Transaction;
-import com.nttdata.repository.IRepository;
-import com.nttdata.repository.ITransactionRepository;
-import com.nttdata.service.ITransactionService;
-
+/**La clase TransactionServiceImpl se extiende CrudServiceImpl y se implementa TransactionService.*/
 @Service
-public class TransactionServiceImpl extends CRUDServiceImpl<Transaction, String> implements ITransactionService {
+public class TransactionServiceImpl 
+    extends CrudServiceImpl<Transaction, String> implements TransactionService {
 
-	@Autowired
-	private ITransactionRepository repository;
+  @Autowired
+  private TransactionRepository repository;
 
-	@Override
-	protected IRepository<Transaction, String> getRepository() {
-		return repository;
-	}
+  @Override
+  protected Repository<Transaction, String> getRepository() {
+    return repository;
+  }
 
 }
